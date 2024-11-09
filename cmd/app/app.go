@@ -13,10 +13,8 @@ func Serve() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	h := handlers.NewHandler()
+	e.GET("/", handlers.HandleHome)
+	e.GET("/resume", handlers.HandleResume)
 
-	e.GET("/", h.HandleHome)
-	e.GET("/resume", h.HandleResume)
-
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":80"))
 } 
