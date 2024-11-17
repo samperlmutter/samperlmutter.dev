@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: samperlmutter/samperlmutter.dev
 
 jobs:
   build-and-push:
@@ -19,6 +19,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      actions: write
 
     steps:
       - name: Checkout repository
@@ -36,7 +37,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/samperlmutter/samperlmutter.dev
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha,prefix=
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
